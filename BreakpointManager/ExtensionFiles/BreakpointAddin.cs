@@ -4,7 +4,6 @@ using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using System;
 using System.ComponentModel.Design;
-using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using Task = System.Threading.Tasks.Task;
@@ -60,7 +59,7 @@ namespace VSBreakpointExtension.ExtensionFiles
         var menuItem = new MenuCommand(ShowToolWindow, menuCommandID);
         commandService.AddCommand(menuItem);
       }
-      //__TrySetBreakPoints();
+      __TrySetBreakPoints();
     }
 
     #region Package Members
@@ -89,15 +88,14 @@ namespace VSBreakpointExtension.ExtensionFiles
 
     private void ShowToolWindow(object sender, EventArgs e)
     {
-
-      ToolWindowPane window = this.package.FindToolWindow(typeof(BreakpointWindow), 0, true);
-      if ((null == window) || (null == window.Frame))
-      {
-        throw new NotSupportedException("Cannot create breakpoint pane");
-      }
-      ThreadHelper.ThrowIfNotOnUIThread();
-      IVsWindowFrame windowFrame = window.Frame as IVsWindowFrame;
-      Microsoft.VisualStudio.ErrorHandler.ThrowOnFailure(windowFrame.Show());
+      //ToolWindowPane window = this.package.FindToolWindow(typeof(BreakpointWindow), 0, true);
+      //if ((null == window) || (null == window.Frame))
+      //{
+      //  throw new NotSupportedException("Cannot create breakpoint pane");
+      //}
+      //ThreadHelper.ThrowIfNotOnUIThread();
+      //IVsWindowFrame windowFrame = window.Frame as IVsWindowFrame;
+      //Microsoft.VisualStudio.ErrorHandler.ThrowOnFailure(windowFrame.Show());
     }
 
     private void __TrySetBreakPoints()
@@ -121,8 +119,8 @@ namespace VSBreakpointExtension.ExtensionFiles
         }
       }
 
-      
-      
+
+
     }
 
   }
