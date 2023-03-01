@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<Extern href="stdidcmd.h"/>
+
+	<Extern href="vsshlids.h"/>
+
+	<Commands package="guidVSBreakpointExtensionPackage">
+		<Buttons>
+			<Button guid="guidVSBreakpointExtensionPackageCmdSet" id="VSBreakpointExtensionCommandId" priority="0x0100" type="Button">
+				<Parent guid="guidVSBreakpointExtensionPackageCmdMenu" id="SubMenuGroup" />
+				<Icon guid="guidImages1" id="bmpPic1" />
+				<Strings>
+					<ButtonText>Open Breakpoint Window</ButtonText>
+				</Strings>
+			</Button>
+		</Buttons>
+
+		<Menus>
+			<Menu guid="guidVSBreakpointExtensionPackageCmdMenu" id="SubMenu" priority="0x0100" type="Menu">
+				<Parent guid="guidVSBreakpointExtensionPackageCmdSet" id="MyToolsGroup" />
+				<Strings>
+					<ButtonText>Breakpoint Manager</ButtonText>
+				</Strings>
+			</Menu>
+		</Menus>
+
+		<Groups>
+			<Group guid="guidVSBreakpointExtensionPackageCmdSet" id="MyToolsGroup" priority="0x0600">
+				<Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS"/>
+			</Group>
+			<Group guid="guidVSBreakpointExtensionPackageCmdSet" id="MyContextMenuSolutionNodeGroup" priority="0x0600">
+				<Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_SOLNNODE" />
+			</Group>
+			<Group guid="guidVSBreakpointExtensionPackageCmdSet" id="MyContextMenuItemNodeGroup" priority="0x0000">
+				<Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_ITEMNODE" />
+			</Group>
+
+			<Group guid="guidVSBreakpointExtensionPackageCmdMenu" id="SubMenuGroup" priority="0x0000">
+				<Parent guid="guidVSBreakpointExtensionPackageCmdMenu" id="SubMenu"/>
+			</Group>
+		</Groups>
+	</Commands>
+
+	<Symbols>
+		<GuidSymbol value="{3d1c5ed2-5a40-4cf2-a14a-47abfe05864c}" name="guidVSBreakpointExtensionPackageCmdMenu">
+			<IDSymbol name="SubMenu" value="0x1100"/>
+			<IDSymbol name="SubMenuGroup" value="0x1150"/>
+		</GuidSymbol>
+		<!-- This is the package guid. -->
+		<GuidSymbol name="guidVSBreakpointExtensionPackage" value="{6f5361e4-63cd-42bc-ade7-72a83192d441}" />
+
+		<!-- This is the guid used to group the menu commands together -->
+		<GuidSymbol name="guidVSBreakpointExtensionPackageCmdSet" value="{8eee401c-e495-4390-8177-96643c0a23ec}">>
+			<IDSymbol value="257" name="VSBreakpointExtensionCommandId" />
+			<IDSymbol value="4126" name="MyContextMenuItemNodeGroup" />
+			<IDSymbol value="4127" name="MyContextMenuSolutionNodeGroup" />
+			<IDSymbol value="4128" name="MyToolsGroup" />
+		</GuidSymbol>
+
+		<GuidSymbol name="guidImages" value="{34aca7a4-5b98-4ae8-91fe-06bd162849af}" >
+			<IDSymbol name="bmpPic1" value="1" />
+			<IDSymbol name="bmpPic2" value="2" />
+			<IDSymbol name="bmpPicSearch" value="3" />
+			<IDSymbol name="bmpPicX" value="4" />
+			<IDSymbol name="bmpPicArrows" value="5" />
+			<IDSymbol name="bmpPicStrikethrough" value="6" />
+		</GuidSymbol>
+
+		<GuidSymbol value="{880c291f-a8bb-4318-8bb6-6a592bdc2ede}" name="guidImages1">
+			<IDSymbol name="bmpPic1" value="1" />
+			<IDSymbol name="bmpPic2" value="2" />
+			<IDSymbol name="bmpPicSearch" value="3" />
+			<IDSymbol name="bmpPicX" value="4" />
+			<IDSymbol name="bmpPicArrows" value="5" />
+			<IDSymbol name="bmpPicStrikethrough" value="6" />
+		</GuidSymbol>
+
+		<GuidSymbol value="{8c748854-f74c-46ca-a183-74f506dfcf45}" name="guidImages2">
+			<IDSymbol name="bmpPic1" value="1" />
+			<IDSymbol name="bmpPic2" value="2" />
+			<IDSymbol name="bmpPicSearch" value="3" />
+			<IDSymbol name="bmpPicX" value="4" />
+			<IDSymbol name="bmpPicArrows" value="5" />
+			<IDSymbol name="bmpPicStrikethrough" value="6" />
+		</GuidSymbol>
+
+		<GuidSymbol value="{c7b2f1f4-708e-4353-bce7-3c4b4cf467b7}" name="guidImages3">
+			<IDSymbol name="bmpPic1" value="1" />
+			<IDSymbol name="bmpPic2" value="2" />
+			<IDSymbol name="bmpPicSearch" value="3" />
+			<IDSymbol name="bmpPicX" value="4" />
+			<IDSymbol name="bmpPicArrows" value="5" />a
+			<IDSymbol name="bmpPicStrikethrough" value="6" />
+		</GuidSymbol>
+
+		<GuidSymbol value="{8d1aec9b-723b-4b38-bdfb-9d4cc7777c57}" name="guidImages4">
+			<IDSymbol name="bmpPic1" value="1" />
+			<IDSymbol name="bmpPic2" value="2" />
+			<IDSymbol name="bmpPicSearch" value="3" />
+			<IDSymbol name="bmpPicX" value="4" />
+			<IDSymbol name="bmpPicArrows" value="5" />
+			<IDSymbol name="bmpPicStrikethrough" value="6" />
+		</GuidSymbol>
+
+		<GuidSymbol value="{E2EC614E-75CA-494E-8B07-F95D31203EA3}" name="guidImages5">
+			<IDSymbol name="bmpPic1" value="1" />
+		</GuidSymbol>
+	</Symbols>
+</CommandTable>
