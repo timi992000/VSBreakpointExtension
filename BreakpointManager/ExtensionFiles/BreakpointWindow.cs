@@ -11,10 +11,7 @@ namespace VSBreakpointExtension.ExtensionFiles
     private BreakpointWindowPane m_Content;
     public BreakpointWindow() : base(null)
     {
-      this.Caption = String.Format("Breakpoint Manager {0}", Assembly.GetExecutingAssembly().GetName().Version);
-      // This is the user control hosted by the tool window; Note that, even if this class implements IDisposable,
-      // we are not calling Dispose on this object. This is because ToolWindowPane calls Dispose on
-      // the object returned by the Content property.
+      //this.Caption = String.Format("Breakpoint Manager {0}", Assembly.GetExecutingAssembly().GetName().Version);
       m_Content = new BreakpointWindowPane(this);
       Content = m_Content;
     }

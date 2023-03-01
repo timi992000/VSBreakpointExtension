@@ -31,6 +31,8 @@ namespace VSBreakpointExtension.ExtensionFiles
   [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
   [Guid("8eee401c-e495-4390-8177-96643c0a23ec")]
   [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
+  [ProvideToolWindow(typeof(BreakpointWindow))]
+  [ProvideAutoLoad(UIContextGuids80.SolutionExists, PackageAutoLoadFlags.BackgroundLoad)]
   public sealed class BreakpointAddin : AsyncPackage
   {
     /// <summary>
@@ -45,21 +47,20 @@ namespace VSBreakpointExtension.ExtensionFiles
     /// <summary>
     /// Initializes a new instance of the <see cref="BreakpointAddin"/> class.
     /// </summary>
-    private BreakpointAddin(Package package, OleMenuCommandService commandService)
+    private BreakpointAddin(Package package, IMenuCommandService commandService)
     {
-      System.Diagnostics.Debugger.Launch();
-      this.serviceProvider = commandService as IServiceProvider;
       if (package == null)
       {
         throw new ArgumentNullException("package");
       }
-      this.package = package; if (commandService != null)
+      this.package = package;
+      if (commandService != null)
       {
         var menuCommandID = new CommandID(CommandSet, CommandId);
         var menuItem = new MenuCommand(ShowToolWindow, menuCommandID);
         commandService.AddCommand(menuItem);
       }
-      __TrySetBreakPoints();
+      //__TrySetBreakPoints();
     }
 
     #region Package Members
@@ -80,7 +81,7 @@ namespace VSBreakpointExtension.ExtensionFiles
 
     public static async Task InitializeAsync(AsyncPackage package)
     {
-      var commandService = await package.GetServiceAsync(typeof(IMenuCommandService)) as OleMenuCommandService;
+      var commandService = (IMenuCommandService)await package.GetServiceAsync(typeof(IMenuCommandService));
       Instance = new BreakpointAddin(package, commandService);
     }
 
@@ -89,14 +90,14 @@ namespace VSBreakpointExtension.ExtensionFiles
     private void ShowToolWindow(object sender, EventArgs e)
     {
 
-      //ToolWindowPane window = this.package.FindToolWindow(typeof(BreakpointWindow), 0, true);
-      //if ((null == window) || (null == window.Frame))
-      //{
-      //  throw new NotSupportedException("Cannot create breakpoint pane");
-      //}
-      //ThreadHelper.ThrowIfNotOnUIThread();
-      //IVsWindowFrame windowFrame = window.Frame as IVsWindowFrame;
-      //Microsoft.VisualStudio.ErrorHandler.ThrowOnFailure(windowFrame.Show());
+      ToolWindowPane window = this.package.FindToolWindow(typeof(BreakpointWindow), 0, true);
+      if ((null == window) || (null == window.Frame))
+      {
+        throw new NotSupportedException("Cannot create breakpoint pane");
+      }
+      ThreadHelper.ThrowIfNotOnUIThread();
+      IVsWindowFrame windowFrame = window.Frame as IVsWindowFrame;
+      Microsoft.VisualStudio.ErrorHandler.ThrowOnFailure(windowFrame.Show());
     }
 
     private void __TrySetBreakPoints()
