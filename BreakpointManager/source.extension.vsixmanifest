@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="VSBreakpointExtension.fa521c42-29e4-4ab6-b1cf-514d4a7bee48" Version="0.1" Language="en-US" Publisher="timi992000" />
+        <Identity Id="VSBreakpointExtension.fa521c42-29e4-4ab6-b1cf-514d4a7bee48" Version="0.1" Language="en-US" Publisher="Timo Schulze" />
         <DisplayName>VSBreakpointExtension</DisplayName>
         <Description xml:space="preserve">Breakpoint manager which creates automatic breakpoints on all methods</Description>
         <Preview>true</Preview>
