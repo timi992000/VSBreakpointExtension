@@ -1,4 +1,4 @@
-﻿using VSBreakpointExtension.ExtensionFiles;
+﻿using BreakpointManager;
 using Microsoft.VisualStudio.Shell;
 using System;
 using System.Runtime.InteropServices;
@@ -10,21 +10,20 @@ namespace VSBreakpointExtension
 
   [ProvideBindingPath]
   [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
-  [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)] // Info on this package for Help/About
+  [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)] // Info on this Package for Help/About
   [ProvideMenuResource("Menus.ctmenu", 1)]
-  [ProvideToolWindow(typeof(BreakpointWindowPane))]
+  [ProvideToolWindow(typeof(BreakpointManagerWindow))]
   [Guid(PackageGuidString)]
-  public sealed class VSBreakpointExtensionPackage : AsyncPackage
+  public sealed class BreakpointManagerPackage : AsyncPackage
   {
-    public const string PackageGuidString = "6f5361e4-63cd-42bc-ade7-72a83192d441";
+    public const string PackageGuidString = "33f9a5d7-1208-45c9-84e4-caae9e03b81b";
 
     #region Package Members
 
     protected override async Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
     {
-      await this.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
-
-      await BreakpointAddin.InitializeAsync(this);
+      await JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
+      await BreakpointManagerWindowCommand.InitializeAsync(this);
     }
 
     #endregion
