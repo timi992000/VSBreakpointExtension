@@ -2,6 +2,7 @@
 using EnvDTE;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
+using System;
 
 namespace BreakpointManager
 {
@@ -25,28 +26,19 @@ namespace BreakpointManager
 
     public void SetBreakpointsToAllMethods()
     {
-      ThreadHelper.ThrowIfNotOnUIThread();
-      TextSelection ts = PackageContext.Instance.DTE.ActiveDocument.Selection as TextSelection;
-      if (ts == null)
-        return;
-
-      CodeClass c = ts.ActivePoint.CodeElement[vsCMElement.vsCMElementClass] as CodeClass;
-      if (c == null)
-        return;
-
-      foreach (CodeElement e in c.Members)
-      {
-        if (e.Kind == vsCMElement.vsCMElementFunction)
-        {
-          TextPoint p = (e as CodeFunction).GetStartPoint();
-          PackageContext.Instance.DTE.Debugger.Breakpoints.Add("", p.Parent.Parent.FullName, p.Line);
-        }
-      }
+      __SetBreakpointsForType(vsCMElement.vsCMElementFunction, (CodeElement e) => { return (e as CodeFunction).GetStartPoint(); });
     }
 
     public void SetBreakpointsToProperties()
     {
+      __SetBreakpointsForType(vsCMElement.vsCMElementProperty, (CodeElement e) => { return (e as CodeProperty).GetStartPoint(); });
+    }
+
+    private void __SetBreakpointsForType(vsCMElement vsCMElementType, Func<CodeElement, TextPoint> getTextPointFunc)
+    {
       ThreadHelper.ThrowIfNotOnUIThread();
+      if (PackageContext.Instance.DTE.ActiveDocument?.Selection == null)
+        return;
       TextSelection ts = PackageContext.Instance.DTE.ActiveDocument.Selection as TextSelection;
       if (ts == null)
         return;
@@ -57,9 +49,9 @@ namespace BreakpointManager
 
       foreach (CodeElement e in c.Members)
       {
-        if (e.Kind == vsCMElement.vsCMElementProperty)
+        if (e.Kind == vsCMElementType)
         {
-          TextPoint p = (e as CodeProperty).GetStartPoint();
+          TextPoint p = getTextPointFunc?.Invoke(e);
           PackageContext.Instance.DTE.Debugger.Breakpoints.Add("", p.Parent.Parent.FullName, p.Line);
         }
       }

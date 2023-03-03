@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:BreakpointManager"
+             xmlns:local="clr-namespace:BreakpointManager" xmlns:views="clr-namespace:BreakpointManager.Views"
              mc:Ignorable="d" 
              Background="{DynamicResource VsBrush.Window}"
              Foreground="{DynamicResource VsBrush.WindowText}"
@@ -11,48 +11,27 @@
              Name="BreakpointWindow"
              GotFocus="__GotFocus">
     <UserControl.Resources>
-        <Style x:Key="BusyIndicatorOverlayStyle" TargetType="Rectangle">
-            <Setter Property="Fill" Value="Transparent"/>
+        <Style TargetType="UserControl">
+            <Setter Property="Background" Value="{DynamicResource VsBrush.Window}"/>
+            <Setter Property="Foreground" Value="{DynamicResource VsBrush.WindowText}"/>
+        </Style>
+        <Style TargetType="TabControl">
+            <Setter Property="Background" Value="{DynamicResource VsBrush.Window}"/>
+            <Setter Property="Foreground" Value="{DynamicResource VsBrush.WindowText}"/>
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="Background" Value="{DynamicResource VsBrush.Window}"/>
+            <Setter Property="Foreground" Value="{DynamicResource VsBrush.WindowText}"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
         </Style>
     </UserControl.Resources>
-    <Grid Margin="10">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-
-
-        <TextBlock Grid.Row="0"
-                   FontSize="15"
-                   Margin="0 10 0 0">
-            <Run Text="Solution:"/>
-            <Run Text="{Binding SolutionName, Mode=OneWay}"/>
-        </TextBlock>
-        <TextBlock Grid.Row="1" FontSize="15"
-                   Margin="0 10 0 0">
-            <Run Text="Class:"/>
-            <Run Text="{Binding DocumentName, Mode=OneWay}"/>
-        </TextBlock>
-        <Button Content="Set Breakpoints to methods" 
-                Grid.Row="2"
-                Width="Auto"
-                HorizontalAlignment="Left"
-                Click="__SetBPToMethods"
-                Margin="0 10 0 0"
-                FontSize="15"/>
-        <Button Content="Set Breakpoints to properties" 
-                Grid.Row="3"
-                Width="Auto"
-                HorizontalAlignment="Left"
-                Click="__SetBPToProperties"
-                Margin="0 10 0 0"
-                FontSize="15"/>
-        <TextBlock Grid.Row="4" FontSize="20"
-                   Margin="0 20 0 0"
-                   Text="More functions coming soon...."/>
-
-    </Grid>
+    <TabControl>
+        <TabItem Header="Breakpoints">
+            <views:BreakpointTab/>
+        </TabItem>
+        <TabItem Header="Bookmarks">
+            <TextBlock Text="Bookmarks"/>
+        </TabItem>
+    </TabControl>
 </UserControl>

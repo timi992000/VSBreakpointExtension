@@ -63,6 +63,9 @@
     <Compile Include="Common\ViewModelBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BreakpointManagerPackage.cs" />
+    <Compile Include="Views\BreakpointTab.xaml.cs">
+      <DependentUpon>BreakpointTab.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="source.extension.vsixmanifest">
@@ -93,6 +96,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="BreakpointManagerWindowContent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BreakpointTab.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
