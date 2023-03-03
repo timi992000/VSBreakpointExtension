@@ -33,11 +33,19 @@ namespace BreakpointManager
       Loaded -= __Loaded;
     }
 
-    private void __SetBPToAll(object sender, RoutedEventArgs e)
+    private void __SetBPToMethods(object sender, RoutedEventArgs e)
     {
       if(DataContext is BreakpointManagerWindowViewModel vm)
       {
-        vm.SetBreakpointsToAll();
+        vm.SetBreakpointsToAllMethods();
+      }
+    }
+
+    private void __SetBPToProperties(object sender, RoutedEventArgs e)
+    {
+      if (DataContext is BreakpointManagerWindowViewModel vm)
+      {
+        vm.SetBreakpointsToProperties();
       }
     }
 

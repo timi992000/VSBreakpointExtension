@@ -23,7 +23,7 @@ namespace BreakpointManager
       OnPropertyChanged(nameof(DocumentName));
     }
 
-    public void SetBreakpointsToAll()
+    public void SetBreakpointsToAllMethods()
     {
       ThreadHelper.ThrowIfNotOnUIThread();
       TextSelection ts = PackageContext.Instance.DTE.ActiveDocument.Selection as TextSelection;
@@ -39,6 +39,27 @@ namespace BreakpointManager
         if (e.Kind == vsCMElement.vsCMElementFunction)
         {
           TextPoint p = (e as CodeFunction).GetStartPoint();
+          PackageContext.Instance.DTE.Debugger.Breakpoints.Add("", p.Parent.Parent.FullName, p.Line);
+        }
+      }
+    }
+
+    public void SetBreakpointsToProperties()
+    {
+      ThreadHelper.ThrowIfNotOnUIThread();
+      TextSelection ts = PackageContext.Instance.DTE.ActiveDocument.Selection as TextSelection;
+      if (ts == null)
+        return;
+
+      CodeClass c = ts.ActivePoint.CodeElement[vsCMElement.vsCMElementClass] as CodeClass;
+      if (c == null)
+        return;
+
+      foreach (CodeElement e in c.Members)
+      {
+        if (e.Kind == vsCMElement.vsCMElementProperty)
+        {
+          TextPoint p = (e as CodeProperty).GetStartPoint();
           PackageContext.Instance.DTE.Debugger.Breakpoints.Add("", p.Parent.Parent.FullName, p.Line);
         }
       }
