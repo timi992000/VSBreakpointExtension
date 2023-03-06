@@ -66,9 +66,11 @@
     <Compile Include="Common\Tree.cs" />
     <Compile Include="Common\TreeNodes.cs" />
     <Compile Include="Common\TreeViewModel.cs" />
+    <Compile Include="Common\UIHierarchyItemIterator.cs" />
     <Compile Include="Common\UserSettings.cs" />
     <Compile Include="Common\ViewModelBase.cs" />
     <Compile Include="Common\VirtualToggleButton.cs" />
+    <Compile Include="Common\VsShellHelper.cs" />
     <Compile Include="Options\BreakpointGeneratorOptions.cs">
       <SubType>Component</SubType>
     </Compile>
