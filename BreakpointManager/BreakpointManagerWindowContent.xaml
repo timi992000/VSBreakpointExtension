@@ -10,11 +10,6 @@
              d:DesignHeight="450" d:DesignWidth="800"
              Name="BreakpointWindow"
              GotFocus="__GotFocus">
-    <UserControl.Resources>
-        <Style x:Key="BusyIndicatorOverlayStyle" TargetType="Rectangle">
-            <Setter Property="Fill" Value="Transparent"/>
-        </Style>
-    </UserControl.Resources>
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
