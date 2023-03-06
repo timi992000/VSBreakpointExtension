@@ -97,6 +97,12 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Users\timo9\Desktop\Breakpoint-Generator-utkarsh-buildfix\Breakpoint-Generator-utkarsh-buildfix\src\BreakpointGenerator\Breakpoint\BreakpointGenerator.Package.csproj">
+      <Project>{394c3b0b-6950-43f7-9aa4-bf8e41d50069}</Project>
+      <Name>BreakpointGenerator.Package</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

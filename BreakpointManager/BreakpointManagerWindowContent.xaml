@@ -23,6 +23,10 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
 
 
         <TextBlock Grid.Row="0"
@@ -43,6 +47,17 @@
                 Click="__SetBPToMethods"
                 Margin="0 10 0 0"
                 FontSize="15"/>
+        <Button Grid.Row="2"
+                Width="Auto"
+                Grid.Column="1"
+                HorizontalAlignment="Left"
+                Click="__DeleteDocumentBP"
+                Margin="10 10 0 0">
+            <TextBlock>
+                <Run Text="Remove all Breakpoints in"/>
+                <Run Text="{Binding DocumentName, Mode=OneWay}"/>
+            </TextBlock>
+        </Button>
         <Button Content="Set Breakpoints to properties" 
                 Grid.Row="3"
                 Width="Auto"

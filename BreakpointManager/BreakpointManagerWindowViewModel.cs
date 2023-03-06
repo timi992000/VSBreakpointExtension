@@ -2,6 +2,7 @@
 using EnvDTE;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
+using System;
 
 namespace BreakpointManager
 {
@@ -25,28 +26,32 @@ namespace BreakpointManager
 
     public void SetBreakpointsToAllMethods()
     {
-      ThreadHelper.ThrowIfNotOnUIThread();
-      TextSelection ts = PackageContext.Instance.DTE.ActiveDocument.Selection as TextSelection;
-      if (ts == null)
-        return;
-
-      CodeClass c = ts.ActivePoint.CodeElement[vsCMElement.vsCMElementClass] as CodeClass;
-      if (c == null)
-        return;
-
-      foreach (CodeElement e in c.Members)
-      {
-        if (e.Kind == vsCMElement.vsCMElementFunction)
-        {
-          TextPoint p = (e as CodeFunction).GetStartPoint();
-          PackageContext.Instance.DTE.Debugger.Breakpoints.Add("", p.Parent.Parent.FullName, p.Line);
-        }
-      }
+      __SetBreakpointsForType(vsCMElement.vsCMElementFunction, (CodeElement e) => { return (e as CodeFunction).GetStartPoint(); });
     }
 
     public void SetBreakpointsToProperties()
     {
+      __SetBreakpointsForType(vsCMElement.vsCMElementProperty, (CodeElement e) => { return (e as CodeProperty).GetStartPoint(); });
+    }
+
+    public void DeleteBreakpointsForCurrentFile()
+    {
+      var debugger = PackageContext.Instance.DTE.Debugger;
+      var settedBreakPoints = debugger.Breakpoints;
+      if (settedBreakPoints == null || settedBreakPoints.Count == 0)
+        return;
+      foreach (var breakPoint in settedBreakPoints)
+      {
+        //if(breakPoint is )
+        //var breakpointDTE = breakPoint.
+      }
+    }
+
+    private void __SetBreakpointsForType(vsCMElement vsCMElementType, Func<CodeElement, TextPoint> getTextPointFunc)
+    {
       ThreadHelper.ThrowIfNotOnUIThread();
+      if (PackageContext.Instance.DTE.ActiveDocument?.Selection == null)
+        return;
       TextSelection ts = PackageContext.Instance.DTE.ActiveDocument.Selection as TextSelection;
       if (ts == null)
         return;
@@ -57,9 +62,9 @@ namespace BreakpointManager
 
       foreach (CodeElement e in c.Members)
       {
-        if (e.Kind == vsCMElement.vsCMElementProperty)
+        if (e.Kind == vsCMElementType)
         {
-          TextPoint p = (e as CodeProperty).GetStartPoint();
+          TextPoint p = getTextPointFunc?.Invoke(e);
           PackageContext.Instance.DTE.Debugger.Breakpoints.Add("", p.Parent.Parent.FullName, p.Line);
         }
       }
