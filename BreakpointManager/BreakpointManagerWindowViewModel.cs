@@ -3,6 +3,7 @@ using EnvDTE;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using System;
+using System.Collections.ObjectModel;
 
 namespace BreakpointManager
 {
@@ -10,6 +11,7 @@ namespace BreakpointManager
   {
     private SolutionEvents m_SolutionEvents;
     private DocumentEvents m_DocumentEvents;
+    private ObservableCollection<TreeViewModel> _tree = new ObservableCollection<TreeViewModel>();
     public BreakpointManagerWindowViewModel()
     {
       __Initialize();
@@ -18,6 +20,17 @@ namespace BreakpointManager
     public string DocumentName => PackageContext.Instance.CurrentDocument?.Name;
     public string SolutionName => PackageContext.Instance.CurrentSolution?.FileName;
     public SolutionEvents SolutionEvents => m_SolutionEvents;
+
+    public ObservableCollection<TreeViewModel> Tree
+    {
+      get { return _tree; }
+      set
+      {
+        _tree = value;
+        OnPropertyChanged();
+      }
+    }
+
 
     public void RefreshCurrentState()
     {
