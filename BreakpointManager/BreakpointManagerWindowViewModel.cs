@@ -1,7 +1,10 @@
 ﻿using BreakpointManager.Common;
 using EnvDTE;
+using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
+using System;
+using System.Windows;
 
 namespace BreakpointManager
 {
@@ -39,7 +42,7 @@ namespace BreakpointManager
 				if (e.Kind == vsCMElement.vsCMElementFunction)
 				{
 					TextPoint p = (e as CodeFunction).GetStartPoint();
-					PackageContext.Instance.DTE.Debugger.Breakpoints.Add("", p.Parent.Parent.FullName, p.Line);
+					__SetBreakpoint(p);
 				}
 			}
 		}
@@ -59,11 +62,48 @@ namespace BreakpointManager
 			{
 				if (e.Kind == vsCMElement.vsCMElementProperty)
 				{
+
+
+
 					TextPoint p = (e as CodeProperty).Getter.StartPoint;
-					PackageContext.Instance.DTE.Debugger.Breakpoints.Add("", p.Parent.Parent.FullName, p.Line);
+					__SetBreakpoint(p);
 					p = (e as CodeProperty).Setter.StartPoint;
-					PackageContext.Instance.DTE.Debugger.Breakpoints.Add("", p.Parent.Parent.FullName, p.Line);
+					__SetBreakpoint(p);
 				}
+			}
+		}
+
+		private void __SetBreakpoint(TextPoint p)
+		{
+			try
+			{
+				__WriteToOutput("");
+				PackageContext.Instance.DTE.Debugger.Breakpoints.Add("", p.Parent.Parent.FullName, p.Line);
+			}
+			catch (System.Exception ex)
+			{
+				__WriteToOutput(ex.ToString());
+				MessageBox.Show(ex.ToString());
+			}
+		}
+
+		private void __WriteToOutput(string message)
+		{
+			ThreadHelper.ThrowIfNotOnUIThread();
+			IVsOutputWindow outWindow = Package.GetGlobalService(typeof(SVsOutputWindow)) as IVsOutputWindow;
+
+			Guid generalPaneGuid = VSConstants.GUID_OutWindowGeneralPane;
+			IVsOutputWindowPane generalPane;
+			outWindow.GetPane(ref generalPaneGuid, out generalPane);
+
+			if(generalPane != null)
+			{
+				generalPane.OutputStringThreadSafe("Hello World!");
+				generalPane.Activate(); // Brings this pane into view
+			}
+			else
+			{
+
 			}
 		}
 
