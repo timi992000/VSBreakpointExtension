@@ -39,9 +39,9 @@ namespace BreakpointManager
 
 			foreach (CodeElement e in c.Members)
 			{
-				if (e.Kind == vsCMElement.vsCMElementFunction)
+				if (e.Kind == vsCMElement.vsCMElementFunction && e is CodeFunction function)
 				{
-					TextPoint p = (e as CodeFunction).GetStartPoint();
+					TextPoint p = function.StartPoint;
 					__SetBreakpoint(p);
 				}
 			}
@@ -62,13 +62,16 @@ namespace BreakpointManager
 			{
 				if (e.Kind == vsCMElement.vsCMElementProperty)
 				{
-
-
-
-					TextPoint p = (e as CodeProperty).Getter.StartPoint;
-					__SetBreakpoint(p);
-					p = (e as CodeProperty).Setter.StartPoint;
-					__SetBreakpoint(p);
+					if (e is CodeProperty getterProperty)
+					{
+						TextPoint p = getterProperty.Getter?.StartPoint;
+						__SetBreakpoint(p);
+					}
+					if (e is CodeProperty setterProperty)
+					{
+						TextPoint p = setterProperty.Setter?.StartPoint;
+						__SetBreakpoint(p);
+					}
 				}
 			}
 		}
@@ -77,6 +80,8 @@ namespace BreakpointManager
 		{
 			try
 			{
+				if (p == null)
+					return;
 				__WriteToOutput("");
 				PackageContext.Instance.DTE.Debugger.Breakpoints.Add("", p.Parent.Parent.FullName, p.Line);
 			}
@@ -96,7 +101,7 @@ namespace BreakpointManager
 			IVsOutputWindowPane generalPane;
 			outWindow.GetPane(ref generalPaneGuid, out generalPane);
 
-			if(generalPane != null)
+			if (generalPane != null)
 			{
 				generalPane.OutputStringThreadSafe("Hello World!");
 				generalPane.Activate(); // Brings this pane into view
