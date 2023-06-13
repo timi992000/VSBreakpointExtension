@@ -13,12 +13,15 @@ namespace BreakpointManager.Common
     {
       get { return _instance; }
     }
+		public event EventHandler SolutionChanged;
+		public void ExecuteSolutionChangedEvent() => SolutionChanged?.Invoke(this, EventArgs.Empty);
     public IServiceProvider ServiceProvider => Package;
     public DTE2 DTE => ServiceProvider.GetService(typeof(DTE)) as DTE2;
     public BreakpointManagerPackage Package { get; set; }
     public IVsSolution Solution { get; set; }
     public Solution CurrentSolution => DTE.Solution;
     public Document CurrentDocument => DTE.ActiveDocument;
+		public ProjectItem CurrentProject => CurrentDocument.ProjectItem;
     public uint SolutionCookie { get; set; }
     public IVsHierarchy Hierarchy { get; set; }
   }

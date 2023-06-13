@@ -32,29 +32,5 @@ namespace BreakpointManager
       DataContext = new BreakpointManagerWindowViewModel();
       Loaded -= __Loaded;
     }
-
-    private void __SetBPToMethods(object sender, RoutedEventArgs e)
-    {
-      if(DataContext is BreakpointManagerWindowViewModel vm)
-      {
-        vm.SetBreakpointsToAllMethods();
-      }
-    }
-
-    private void __SetBPToProperties(object sender, RoutedEventArgs e)
-    {
-      if (DataContext is BreakpointManagerWindowViewModel vm)
-      {
-        vm.SetBreakpointsToProperties();
-      }
-    }
-
-    private void __GotFocus(object sender, RoutedEventArgs e)
-    {
-      if (DataContext is BreakpointManagerWindowViewModel vm)
-      {
-        vm.RefreshCurrentState();
-      }
-    }
   }
 }
