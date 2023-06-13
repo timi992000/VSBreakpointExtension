@@ -1,58 +1,133 @@
 ﻿<UserControl x:Class="BreakpointManager.BreakpointManagerWindowContent"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:BreakpointManager"
-             mc:Ignorable="d" 
+             xmlns:views="clr-namespace:BreakpointManager.Views"
+             mc:Ignorable="d"
              Background="{DynamicResource VsBrush.Window}"
              Foreground="{DynamicResource VsBrush.WindowText}"
-             d:DesignHeight="450" d:DesignWidth="800"
-             Name="BreakpointWindow"
-             GotFocus="__GotFocus">
-    <UserControl.Resources>
-        <Style x:Key="BusyIndicatorOverlayStyle" TargetType="Rectangle">
-            <Setter Property="Fill" Value="Transparent"/>
-        </Style>
-    </UserControl.Resources>
-    <Grid Margin="10">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-
-
-        <TextBlock Grid.Row="0"
-                   FontSize="15"
-                   Margin="0 10 0 0">
-            <Run Text="Solution:"/>
-            <Run Text="{Binding SolutionName, Mode=OneWay}"/>
-        </TextBlock>
-        <TextBlock Grid.Row="1" FontSize="15"
-                   Margin="0 10 0 0">
-            <Run Text="Class:"/>
-            <Run Text="{Binding DocumentName, Mode=OneWay}"/>
-        </TextBlock>
-        <Button Content="Set Breakpoints to methods" 
-                Grid.Row="2"
-                Width="Auto"
-                HorizontalAlignment="Left"
-                Click="__SetBPToMethods"
-                Margin="0 10 0 0"
-                FontSize="15"/>
-        <Button Content="Set Breakpoints to properties" 
-                Grid.Row="3"
-                Width="Auto"
-                HorizontalAlignment="Left"
-                Click="__SetBPToProperties"
-                Margin="0 10 0 0"
-                FontSize="15"/>
-        <TextBlock Grid.Row="4" FontSize="20"
-                   Margin="0 20 0 0"
-                   Text="More functions coming soon...."/>
-
-    </Grid>
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             Name="BreakpointWindow">
+  <UserControl.Resources>
+    <Style x:Key="BusyIndicatorOverlayStyle"
+           TargetType="Rectangle">
+      <Setter Property="Fill"
+              Value="Transparent" />
+    </Style>
+    <Style TargetType="UserControl">
+      <Setter Property="Background"
+              Value="{DynamicResource VsBrush.Window}" />
+      <Setter Property="Foreground"
+              Value="{DynamicResource VsBrush.WindowText}" />
+    </Style>
+    <Style TargetType="TabControl">
+      <Setter Property="Background"
+              Value="{DynamicResource VsBrush.Window}" />
+      <Setter Property="Foreground"
+              Value="{DynamicResource VsBrush.WindowText}" />
+    </Style>
+    <Style TargetType="TabItem">
+      <Setter Property="Background"
+              Value="{DynamicResource VsBrush.Window}" />
+      <Setter Property="Foreground"
+              Value="{DynamicResource VsBrush.WindowText}" />
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="TabItem">
+            <Border Name="Border"
+                    BorderThickness="1,1,1,0"
+                    BorderBrush="{DynamicResource VsBrush.WindowText}"
+                    CornerRadius="4,4,0,0"
+                    Margin="2,0">
+              <ContentPresenter x:Name="ContentSite"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"
+                                ContentSource="Header"
+                                Margin="10,2" />
+            </Border>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsSelected"
+                       Value="True">
+                <Setter TargetName="Border"
+                        Property="Background"
+                        Value="Gray" />
+              </Trigger>
+              <Trigger Property="IsSelected"
+                       Value="False">
+                <Setter TargetName="Border"
+                        Property="Background"
+                        Value="{DynamicResource VsBrush.Window}" />
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style TargetType="TextBlock">
+      <Setter Property="Background"
+              Value="{DynamicResource VsBrush.Window}" />
+      <Setter Property="Foreground"
+              Value="{DynamicResource VsBrush.WindowText}" />
+      <Setter Property="FontSize"
+              Value="14" />
+      <Setter Property="FontWeight"
+              Value="Bold" />
+    </Style>
+    <Style TargetType="Button">
+      <Setter Property="FontSize"
+              Value="15" />
+      <Setter Property="Background"
+              Value="Transparent" />
+      <Setter Property="Foreground"
+              Value="{DynamicResource VsBrush.WindowText}" />
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="Button">
+            <Border Name="Border"
+                    BorderThickness="1"
+                    BorderBrush="{DynamicResource VsBrush.WindowText}"
+                    CornerRadius="4"
+                    Height="Auto"
+                    Margin="2,0">
+              <ContentPresenter x:Name="ContentSite"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"
+                                ContentSource="Content"
+                                Margin="10,2" />
+            </Border>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsMouseOver"
+                       Value="True">
+                <Setter TargetName="Border"
+                        Property="Background"
+                        Value="Gray" />
+              </Trigger>
+              <Trigger Property="IsMouseOver"
+                       Value="False">
+                <Setter TargetName="Border"
+                        Property="Background"
+                        Value="{DynamicResource VsBrush.Window}" />
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+  </UserControl.Resources>
+  <TabControl TabStripPlacement="Top">
+    <TabItem Header="Document">
+      <TabItem.Content>
+        <views:DocumentView />
+      </TabItem.Content>
+    </TabItem>
+    <TabItem Header="Project">
+      <views:ProjectView />
+    </TabItem>
+    <TabItem Header="Solution">
+      <views:SolutionView />
+    </TabItem>
+  </TabControl>
 </UserControl>
