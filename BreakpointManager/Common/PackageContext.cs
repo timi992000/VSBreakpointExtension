@@ -14,21 +14,28 @@ namespace BreakpointManager.Common
     {
       get { return _instance; }
     }
-		public event EventHandler SolutionChanged;
-		public void ExecuteSolutionChangedEvent() => SolutionChanged?.Invoke(this, EventArgs.Empty);
+    public event EventHandler SolutionChanged;
+    public void ExecuteSolutionChangedEvent() => SolutionChanged?.Invoke(this, EventArgs.Empty);
     public IServiceProvider ServiceProvider => Package;
     public DTE2 DTE => ServiceProvider.GetService(typeof(DTE)) as DTE2;
     public BreakpointManagerPackage Package { get; set; }
     public IVsSolution Solution { get; set; }
     public Solution CurrentSolution => DTE.Solution;
     public Document CurrentDocument => DTE.ActiveDocument;
-		public Project CurrentProject
+    public Project CurrentProject
     {
       get
       {
-        var projects = DTE.ActiveSolutionProjects;
-        if(projects is object[] objArray && objArray.Any())
-          return objArray[0] as Project;
+        try
+        {
+          var projects = DTE.ActiveSolutionProjects;
+          if (projects is object[] objArray && objArray.Any())
+            return objArray[0] as Project;
+        }
+        catch (Exception)
+        {
+          return null;
+        }
         return null;
       }
     }
