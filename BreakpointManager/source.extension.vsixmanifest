@@ -1,24 +1,42 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
-  <Metadata>
-    <Identity Id="VSBreakpointExtension.fa521c42-29e4-4ab6-b1cf-514d4a7bee48" Version="0.8" Language="en-US" Publisher="Timo Schulze" />
-    <DisplayName>VSBreakpointExtension</DisplayName>
-    <Description xml:space="preserve">Breakpoint manager which creates automatic breakpoints on all methods</Description>
-    <Preview>true</Preview>
-  </Metadata>
-  <Installation>
-    <InstallationTarget Id="Microsoft.VisualStudio.Pro" Version="[17.0, 18.0)">
-      <ProductArchitecture>amd64</ProductArchitecture>
-    </InstallationTarget>
-  </Installation>
-  <Dependencies>
-    <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.5,)" />
-    <Dependency Id="Microsoft.VisualStudio.MPF.16.0" DisplayName="Visual Studio MPF 16.0" d:Source="Installed" Version="[16.0,17.0)" />
-  </Dependencies>
-  <Prerequisites>
-    <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[17.0,18.0)" DisplayName="Visual Studio core editor" />
-  </Prerequisites>
-  <Assets>
-    <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
-  </Assets>
+    <Metadata>
+        <Identity Id="VSBreakpointExtension.fa521c42-29e4-4ab6-b1cf-514d4a7bee48" Version="0.9" Language="en-US" Publisher="Timo Schulze" />
+        <DisplayName>VSBreakpointExtension</DisplayName>
+        <Description xml:space="preserve"># VSBreakpointExtension
+
+This extension allows them to set breakpoints at the touch of a button. For example, for all methods or all properties in the current class.
+
+It also allows you to deactivate all breakpoints in the current document/project or the entire solution, to delete them or to remove only the deactivated ones.
+
+This extension has been a quick solution for me and will be developed further.
+
+To use the extension, you can install it in the Visual Studio [Marketplace](https://marketplace.visualstudio.com/items?itemName=timi992000.BreakpointManager).
+
+To set breakpoints etc. a new menu item is available under "Tools" which provides a new toolwindow.
+
+![image](https://github.com/timi992000/VSBreakpointExtension/assets/77628993/5cf7a2af-4058-4271-afc7-a78c7aaed990)
+
+![image](https://github.com/timi992000/VSBreakpointExtension/assets/77628993/3add0c2b-b130-4325-837e-30563989e714)
+
+
+
+Please feel free to ask any questions, requests or other issues.</Description>
+        <Preview>true</Preview>
+    </Metadata>
+    <Installation>
+        <InstallationTarget Id="Microsoft.VisualStudio.Pro" Version="[17.0, 18.0)">
+            <ProductArchitecture>amd64</ProductArchitecture>
+        </InstallationTarget>
+    </Installation>
+    <Dependencies>
+        <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.5,)" />
+        <Dependency Id="Microsoft.VisualStudio.MPF.16.0" DisplayName="Visual Studio MPF 16.0" d:Source="Installed" Version="[16.0,17.0)" />
+    </Dependencies>
+    <Prerequisites>
+        <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[17.0,18.0)" DisplayName="Visual Studio core editor" />
+    </Prerequisites>
+    <Assets>
+        <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
+    </Assets>
 </PackageManifest>

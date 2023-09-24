@@ -4,6 +4,7 @@ using BreakpointManager.Enums;
 using EnvDTE;
 using Microsoft.VisualStudio.Shell;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows;
 
@@ -28,11 +29,24 @@ namespace BreakpointManager.ViewModel
     {
       switch (breakpointMode)
       {
+        case eSetBreakpointMode.PropertiesGetter:
+          __SetBreakpointsToProperties(eSetBreakpointMode.PropertiesGetter);
+          break;
+        case eSetBreakpointMode.PropertiesSetter:
+          __SetBreakpointsToProperties(eSetBreakpointMode.PropertiesSetter);
+          break;
         case eSetBreakpointMode.Properties:
-          __SetBreakpointsToProperties();
+          __SetBreakpointsToProperties(eSetBreakpointMode.PropertiesGetter);
+          __SetBreakpointsToProperties(eSetBreakpointMode.PropertiesSetter);
+          break;
+        case eSetBreakpointMode.MethodsPrivate:
+          __SetBreakpointsToAllMethods(eSetBreakpointMode.MethodsPrivate);
+          break;
+        case eSetBreakpointMode.MethodsPublic:
+          __SetBreakpointsToAllMethods(eSetBreakpointMode.MethodsPublic);
           break;
         case eSetBreakpointMode.Methods:
-          __SetBreakpointsToAllMethods();
+          __SetBreakpointsToAllMethods(eSetBreakpointMode.Methods);
           break;
         default:
           break;
@@ -111,10 +125,10 @@ namespace BreakpointManager.ViewModel
       __RefreshTexts();
     }
 
-    private void __SetBreakpointsToProperties()
+    private void __SetBreakpointsToProperties(eSetBreakpointMode getterOrSetter)
     {
       ThreadHelper.ThrowIfNotOnUIThread();
-      TextSelection ts = PackageContext.Instance.DTE.ActiveDocument.Selection as TextSelection;
+      TextSelection ts = PackageContext.Instance.DTE.ActiveDocument?.Selection as TextSelection;
       if (ts == null)
         return;
 
@@ -129,40 +143,73 @@ namespace BreakpointManager.ViewModel
       {
         if (e.Kind == vsCMElement.vsCMElementProperty)
         {
-          if (e is CodeProperty getterProperty)
+          if (e is CodeProperty property)
           {
-            TextPoint p = getterProperty.Getter?.StartPoint;
-            __SetBreakpoint(p);
-          }
-          if (e is CodeProperty setterProperty)
-          {
-            TextPoint p = setterProperty.Setter?.StartPoint;
-            __SetBreakpoint(p);
+
+            if (getterOrSetter == eSetBreakpointMode.PropertiesGetter)
+            {
+              TextPoint getter = property.Getter?.StartPoint;
+              __SetBreakpoint(getter);
+            }
+            else if (getterOrSetter == eSetBreakpointMode.PropertiesSetter)
+            {
+              TextPoint setter = property.Setter?.StartPoint;
+              __SetBreakpoint(setter);
+            }
           }
         }
       }
     }
 
-    private void __SetBreakpointsToAllMethods()
+    private void __SetBreakpointsToAllMethods(eSetBreakpointMode privateOrOther)
     {
       ThreadHelper.ThrowIfNotOnUIThread();
-      TextSelection ts = PackageContext.Instance.DTE.ActiveDocument.Selection as TextSelection;
+      TextSelection ts = PackageContext.Instance.DTE.ActiveDocument?.Selection as TextSelection;
       if (ts == null)
         return;
 
-      CodeClass c = ts.ActivePoint.CodeElement[vsCMElement.vsCMElementClass] as CodeClass;
-      if (c == null)
+      PackageContext.Instance.DTE.ActiveDocument.Activate();
+
+      var codeClasses = new List<CodeClass>();
+
+      CodeClass cc = ts.ActivePoint.CodeElement[vsCMElement.vsCMElementClass] as CodeClass;
+      if (cc != null)
+        codeClasses.Add(cc);
+
+      var doc = PackageContext.Instance.CurrentDocument;
+
+      if (doc == null)
         return;
+
+      if (_Mode == eOperationMode.Project)
+        foreach (CodeElement element in doc.ProjectItem.ContainingProject.CodeModel.CodeElements)
+        {
+          //Klappt irgendwie nicht
+          if (element.Kind == vsCMElement.vsCMElementClass)
+          {
+            if (element is CodeClass castedClass)
+              codeClasses.Add(castedClass);
+            //var myClass = (EnvDTE.CodeClass)element;
+          }
+        }
+
 
       //Todo: For whole project
       //Todo: For whole solution
 
-      foreach (CodeElement e in c.Members)
+      foreach (var c in codeClasses)
       {
-        if (e.Kind == vsCMElement.vsCMElementFunction && e is CodeFunction function)
+        foreach (CodeElement e in c.Members)
         {
-          TextPoint p = function.StartPoint;
-          __SetBreakpoint(p);
+          if (e.Kind == vsCMElement.vsCMElementFunction && e is CodeFunction function)
+          {
+            if (privateOrOther == eSetBreakpointMode.MethodsPublic && function.Access != vsCMAccess.vsCMAccessPublic)
+              continue;
+            else if (privateOrOther == eSetBreakpointMode.MethodsPrivate && function.Access != vsCMAccess.vsCMAccessPrivate)
+              continue;
+            TextPoint p = function.StartPoint;
+            __SetBreakpoint(p);
+          }
         }
       }
     }

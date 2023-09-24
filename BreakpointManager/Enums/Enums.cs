@@ -10,9 +10,12 @@
 	public enum eSetBreakpointMode
 	{
 		Properties = 0,
+    PropertiesGetter = 1,
+    PropertiesSetter = 2,
 
 		Methods = 5,
-
+    MethodsPrivate = 6,
+    MethodsPublic = 7,
 	}
 
 }
