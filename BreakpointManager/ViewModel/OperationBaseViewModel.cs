@@ -2,6 +2,8 @@
 using BreakpointManager.Common;
 using BreakpointManager.Enums;
 using EnvDTE;
+using EnvDTE80;
+using EnvDTE90a;
 using Microsoft.VisualStudio.Shell;
 using System;
 using System.Collections.Generic;
@@ -23,6 +25,11 @@ namespace BreakpointManager.ViewModel
     {
       get => Get<string>();
       set => Set(value);
+    }
+
+    public bool CanExecute_SetBreakpoints()
+    {
+      return _Mode == eOperationMode.Document;
     }
 
     public void Execute_SetBreakpoints(eSetBreakpointMode breakpointMode)
@@ -53,21 +60,44 @@ namespace BreakpointManager.ViewModel
       }
     }
 
-    public void Execute_EnableBreakpoints()
+    public void Execute_EnableBreakpoints(eSetBreakpointMode mode)
     {
       try
       {
-        __ActionOnModeMatchedBreakpoints((breakPoint) => breakPoint.Enabled = true);
+        __ActionOnModeMatchedBreakpoints((breakPoint) =>
+        {
+          breakPoint.Enabled = true;
+        });
       }
       catch (Exception ex)
       {
       }
     }
-    public void Execute_DisableBreakpoints()
+    public void Execute_DisableBreakpoints(eSetBreakpointMode mode)
     {
       try
       {
-        __ActionOnModeMatchedBreakpoints((breakPoint) => breakPoint.Enabled = false);
+        __ActionOnModeMatchedBreakpoints((breakPoint) =>
+        {
+          switch (mode)
+          {
+            case eSetBreakpointMode.Properties:
+              break;
+            case eSetBreakpointMode.PropertiesGetter:
+              break;
+            case eSetBreakpointMode.PropertiesSetter:
+              break;
+            case eSetBreakpointMode.Methods:
+              break;
+            case eSetBreakpointMode.MethodsPrivate:
+              break;
+            case eSetBreakpointMode.MethodsPublic:
+              break;
+            default:
+              break;
+          }
+          breakPoint.Enabled = false;
+        });
       }
       catch (Exception ex)
       {

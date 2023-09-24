@@ -14,6 +14,7 @@
       <RowDefinition Height="Auto" />
       <RowDefinition Height="Auto" />
       <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
     <TextBlock Grid.Row="0"
                Margin="0 10 0 0"
@@ -79,22 +80,107 @@
 
     </Grid>
 
-    <StackPanel Grid.Row="2"
-                Orientation="Horizontal"
-                Margin="0 10 0 0">
-      <TextBlock Text="Change state" />
-      <Button Content="Disable"
+    <Grid Grid.Row="2"
+          Margin="0 10 0 0">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+
+      <TextBlock Text="Disable breakpoints"
+                 Grid.Row="0"
+                 Grid.Column="0" />
+
+      <Button Content="All"
+              Grid.Row="0"
+              Grid.Column="1"
               Width="Auto"
               HorizontalAlignment="Left"
               Command="{Binding [DisableBreakpoints]}"
               Margin="10 0 0 0" />
-      <Button Content="Enable"
-              Width="Auto"
-              HorizontalAlignment="Left"
-              Command="{Binding [EnableBreakpoints]}"
-              Margin="10 0 0 0" />
-    </StackPanel>
-    <StackPanel Grid.Row="3"
+
+      <StackPanel Orientation="Horizontal"
+                  Grid.Row="1"
+                  Grid.Column="1"
+                  Margin="0 10 0 0">
+        <Button Content="methods (private)"
+                Width="Auto"
+                HorizontalAlignment="Left"
+                Command="{Binding [DisableBreakpoints]}"
+                CommandParameter="{x:Static enums:eSetBreakpointMode.MethodsPrivate}"
+                Margin="10 0 0 0" />
+        <Button Content="methods (public)"
+                Width="Auto"
+                HorizontalAlignment="Left"
+                Command="{Binding [DisableBreakpoints]}"
+                CommandParameter="{x:Static enums:eSetBreakpointMode.MethodsPublic}"
+                Margin="10 0 0 0" />
+        <Button Content="methods (all)"
+                Width="Auto"
+                HorizontalAlignment="Left"
+                Command="{Binding [DisableBreakpoints]}"
+                CommandParameter="{x:Static enums:eSetBreakpointMode.Methods}"
+                Margin="10 0 0 0" />
+
+      </StackPanel>
+
+      <StackPanel Grid.Row="2"
+                  Grid.Column="1"
+                  Orientation="Horizontal"
+                  Margin="0 10 0 0 ">
+        <Button Content="properties (getter)"
+                Width="Auto"
+                HorizontalAlignment="Left"
+                Command="{Binding [DisableBreakpoints]}"
+                CommandParameter="{x:Static enums:eSetBreakpointMode.PropertiesGetter}"
+                Margin="10 0 0 0" />
+        <Button Content="properties (setter)"
+                Width="Auto"
+                HorizontalAlignment="Left"
+                Command="{Binding [DisableBreakpoints]}"
+                CommandParameter="{x:Static enums:eSetBreakpointMode.PropertiesSetter}"
+                Margin="10 0 0 0" />
+        <Button Content="properties (all)"
+                Width="Auto"
+                HorizontalAlignment="Left"
+                Command="{Binding [DisableBreakpoints]}"
+                CommandParameter="{x:Static enums:eSetBreakpointMode.Properties}"
+                Margin="10 0 0 0" />
+      </StackPanel>
+
+    </Grid>
+
+    <Grid Grid.Row="3"
+          Margin="0 10 0 0">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+
+      <TextBlock Text="Disable breakpoints"
+                 Grid.Row="0"
+                 Grid.Column="0" />
+
+      <StackPanel Orientation="Horizontal"
+                  Grid.Row="0"
+                  Grid.Column="1">
+      </StackPanel>
+
+    </Grid>
+
+    <StackPanel Grid.Row="4"
                 Orientation="Horizontal"
                 Margin="0 10 0 0">
       <TextBlock Text="Deletion" />
@@ -109,5 +195,12 @@
               Command="{Binding [DeleteDisabledBreakpoints]}"
               Margin="10 0 0 0" />
     </StackPanel>
+
+    <Button Content="Enable"
+            Width="Auto"
+            HorizontalAlignment="Left"
+            Command="{Binding [EnableBreakpoints]}"
+            Margin="10 0 0 0" />
+
   </Grid>
 </UserControl>
